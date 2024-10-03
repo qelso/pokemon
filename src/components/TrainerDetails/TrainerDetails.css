@@ -1,0 +1,13 @@
+.trainerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    & label {
+        margin-right: 8px;
+    }
+}
+
+.error {
+    color:red;
+}

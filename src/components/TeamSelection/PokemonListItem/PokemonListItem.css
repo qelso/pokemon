@@ -1,0 +1,35 @@
+.list-item-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+  }
+  
+  .list-item-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .main-label-container {
+    flex: 1;
+  }
+  
+  .main-label {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .additional-labels-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .additional-label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 2px; /* Adds space between additional labels */
+  }
