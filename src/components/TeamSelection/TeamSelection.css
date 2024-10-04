@@ -1,20 +1,32 @@
 .team-selection {
-    
+
     display: flex;
+    height: inherit;
+    width: inherit;
+    max-height: inherit;
 
-    & .pokemon-list {
+    .pokemon-list {
 
-        & .list-container {
-            height: 400px;
-            overflow: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-height: inherit;
+        height: inherit;
+
+
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            height: 1px;
+            flex-grow: 1;
         }
 
-        & .tab-container {
+        .tab-container {
             display: flex;
             margin-bottom: 10px;
             flex-wrap: wrap;
 
-            & .tab {
+            .tab {
                 padding: 10px 20px;
                 cursor: "pointer";
                 background-color: #f1f1f1;
@@ -28,6 +40,14 @@
             }
 
         }
+    }
+
+    .details-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-height: inherit;
+        height: inherit;
     }
 
 }

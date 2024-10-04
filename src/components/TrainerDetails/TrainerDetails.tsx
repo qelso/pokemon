@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import './TrainerDetails.css'
 import {  useQuery } from "@apollo/client";
 import { gql } from "../../__generated__";
+import { firstLetterUppercase } from "../../lib/utils/utils";
 
 export type TrainerDetailsData = {
     name: string
@@ -106,7 +107,7 @@ export default function TrainerDetails({ details, setDetails, validateRef }: Tra
                 <select name="favType" value={details.favType} onChange={handleFavTypeChange} required>
                     <option key={'empty'} value={''}></option>
                     {!loading && data?.pokemon_v2_type.map(type =>
-                        <option key={type.name} value={type.name}>{`${type.name.charAt(0).toUpperCase()}${type.name.slice(1)}`}</option>)
+                        <option key={type.name} value={type.name}>{firstLetterUppercase(type.name)}</option>)
                     }
                 </select>
                 {favTypeError && <p className="error">{favTypeError}</p>}

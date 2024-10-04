@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 16px;
 
-    & label {
+    .label {
         margin-right: 8px;
     }
 }

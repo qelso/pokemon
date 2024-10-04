@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import "./TeamSelection.css"
 import { PokemonGenerations } from "../../lib/utils/pokemogens"
 import PokemonList from "./PokemonList/PokemonList"
+import PokemonDetails from "./PokemonDetails/PokemonDetails"
 
 
 
@@ -13,7 +14,7 @@ type TeamSelectionProps = {
 
 export default function TeamSelection({ favouriteType }: TeamSelectionProps) {
     const [currentListTab, setCurrentListTab] = useState(0)
-    const [selectedPokemons, setSelectedPokemons] = useState()
+    const [selectedPokemon, setSelectedPokemon] = useState("")
 
     return <div className="team-selection">
 
@@ -26,19 +27,15 @@ export default function TeamSelection({ favouriteType }: TeamSelectionProps) {
                     >{gen.label}</button>
                 ))}
             </div>
-                <PokemonList favouriteType={favouriteType} generation={PokemonGenerations[currentListTab]}/>
-                
+            <div className="list-container">
+                <PokemonList favouriteType={favouriteType} generation={PokemonGenerations[currentListTab]} selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon}/>
+            </div>
+
 
         </div>
 
-        <div className="pokemon-team">
-            <ul>
-                <li>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-                <li>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-                <li>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-                <li>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-                <li>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li>
-            </ul>
+        <div className="details-container">
+            <PokemonDetails pokemon={selectedPokemon}/>
         </div>
 
     </div>

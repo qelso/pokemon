@@ -3,8 +3,7 @@ import { gql } from "../../../__generated__";
 import { Generation } from "../../../lib/utils/pokemogens";
 import { useQuery } from "@apollo/client";
 import React, { useEffect, useRef, useState } from "react";
-import "../TeamSelection.css"
-
+import './PokemonList.css'
 
 const FAV_TYPE_POKEMONS_QUERY = gql(/*Graph QL*/ `
 query GetFavTypePokemons($favouriteType: String, $first: Int, $last: Int) {
@@ -41,10 +40,12 @@ const NOT_FAV_TYPE_POKEMONS_QUERY = gql(` query getNonFavTypePokemons($favourite
 type PokemonListProps = {
     favouriteType: string
     generation: Generation
+    selectedPokemon: string
+    setSelectedPokemon: React.Dispatch<React.SetStateAction<string>>
 
 }
 
-export default function PokemonList({ favouriteType, generation }: PokemonListProps) {
+export default function PokemonList({ favouriteType, generation, selectedPokemon, setSelectedPokemon }: PokemonListProps) {
     //const [offset, setOffset] = useState(0);
     //const [pokemonEnd, setPokemonEnd] = useState(false)
     const [pokemonSearchText, setPokemonSearchText] = useState("")
@@ -111,19 +112,19 @@ export default function PokemonList({ favouriteType, generation }: PokemonListPr
     }
 
     return <React.Fragment>
-        <input type="text" onChange={handleChange} placeholder="Search a Pokemon..." style={{display:"flex", flex:1}}></input>
-        <div ref={containerRef} className="list-container" >
+        <input type="text" onChange={handleChange} placeholder="Search a Pokemon..."></input>
+        <div ref={containerRef} className="list" >
             {!favPokemonsQuery.loading && favPokemonsQuery.data?.pokemon_v2_pokemon
                 .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
                 .map((pokemon, index) =>
-                    <PokemonListItem key={pokemon.name} name={pokemon.name} spriteUrl={pokemon.pokemon_v2_pokemonsprites[0].sprites} types={pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)} />
+                    <PokemonListItem key={pokemon.name} name={pokemon.name} spriteUrl={pokemon.pokemon_v2_pokemonsprites[0].sprites} types={pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)} onClick={()=>{setSelectedPokemon(pokemon.name)}} selected={pokemon.name === selectedPokemon}/>
                 )}
 
             {!pokemonsQuery.loading && pokemonsQuery.data?.pokemon_v2_pokemon
                 .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
                 .map((pokemon, index) =>
 
-                    <PokemonListItem key={pokemon.name} name={pokemon.name} spriteUrl={pokemon.pokemon_v2_pokemonsprites[0].sprites} types={pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)} />
+                    <PokemonListItem key={pokemon.name} name={pokemon.name} spriteUrl={pokemon.pokemon_v2_pokemonsprites[0].sprites} types={pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)} onClick={()=>{setSelectedPokemon(pokemon.name)}} selected={pokemon.name === selectedPokemon}/>
 
                 )}
             {(favPokemonsQuery.error || pokemonsQuery.error) && <p className="error">There was a problem retrieving Pokemons</p>}

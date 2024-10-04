@@ -1,7 +1,5 @@
-:root {
-    & .wizard-buttons {
+:root .wizard-buttons{
         align-items: center;
         display: flex;
         justify-content: space-around;
-    }
 }

@@ -1,0 +1,57 @@
+.details-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    align-items: center;
+    flex-grow: 1;
+    overflow: auto;
+
+    .header {
+        display: flex;
+        flex-direction: row;
+    }
+    .sprite-image {
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+        border: 1px solid black;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 2px;
+        max-width: 500px;
+        margin: 3px;
+    }
+
+    .key {
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .value {
+        text-align: left;
+    }
+
+
+    .moves {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns of equal width */
+        grid-gap: 10px; /* Space between the cards */
+        width: 90%;
+      }
+  
+      .move {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+    .header {
+        align-self: flex-start;
+        padding-left: 20px;
+    }
+}

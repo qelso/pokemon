@@ -5,6 +5,10 @@
     border-bottom: 1px solid #ccc;
     background-color: #fff;
   }
+
+  .selected {
+    border: 2px solid blue;
+  }
   
   .list-item-image {
     width: 50px;

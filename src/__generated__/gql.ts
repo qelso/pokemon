@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "query GetPokemonDetails($pokemon: String = \"charmander\") {\n    pokemon_v2_pokemon(where: {name: {_eq: $pokemon}}) {\n      name\n      pokemon_v2_pokemontypes {\n        pokemon_v2_type {\n          name\n        }\n      }\n      id\n      height\n      base_experience\n      pokemon_v2_pokemonstats {\n        base_stat\n        pokemon_v2_stat {\n          name\n        }\n      }\n      pokemon_v2_pokemonmoves(limit: 4) {\n        pokemon_v2_move {\n          name\n        }\n      }\n      pokemon_v2_pokemonsprites {\n        sprites\n      }\n    }\n  }\n  ": types.GetPokemonDetailsDocument,
     "\nquery GetFavTypePokemons($favouriteType: String, $first: Int, $last: Int) {\n    pokemon_v2_pokemon(where: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $favouriteType}}}, id: {_gte: $first, _lte: $last}}, limit: 200 ) {\n      name\n      pokemon_v2_pokemonsprites {\n        sprites(path: \"front_default\")\n      }\n      pokemon_v2_pokemontypes {\n        pokemon_v2_type {\n          name\n        }\n      }\n    }\n  }\n  \n": types.GetFavTypePokemonsDocument,
     " query getNonFavTypePokemons($favouriteType: String, $first: Int, $last: Int) {\n    pokemon_v2_pokemon(where: {_not: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $favouriteType}}}}, id: {_gte: $first, _lte: $last}}, limit: 200) {\n      name\n      pokemon_v2_pokemonsprites {\n        sprites(path: \"front_default\")\n      }\n      pokemon_v2_pokemontypes {\n        pokemon_v2_type {\n          name\n        }\n      }\n    }\n  }\n": types.GetNonFavTypePokemonsDocument,
     "\nquery PokemonTypes {\n    pokemon_v2_type {\n      name\n    }\n  }": types.PokemonTypesDocument,
@@ -32,6 +33,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "query GetPokemonDetails($pokemon: String = \"charmander\") {\n    pokemon_v2_pokemon(where: {name: {_eq: $pokemon}}) {\n      name\n      pokemon_v2_pokemontypes {\n        pokemon_v2_type {\n          name\n        }\n      }\n      id\n      height\n      base_experience\n      pokemon_v2_pokemonstats {\n        base_stat\n        pokemon_v2_stat {\n          name\n        }\n      }\n      pokemon_v2_pokemonmoves(limit: 4) {\n        pokemon_v2_move {\n          name\n        }\n      }\n      pokemon_v2_pokemonsprites {\n        sprites\n      }\n    }\n  }\n  "): (typeof documents)["query GetPokemonDetails($pokemon: String = \"charmander\") {\n    pokemon_v2_pokemon(where: {name: {_eq: $pokemon}}) {\n      name\n      pokemon_v2_pokemontypes {\n        pokemon_v2_type {\n          name\n        }\n      }\n      id\n      height\n      base_experience\n      pokemon_v2_pokemonstats {\n        base_stat\n        pokemon_v2_stat {\n          name\n        }\n      }\n      pokemon_v2_pokemonmoves(limit: 4) {\n        pokemon_v2_move {\n          name\n        }\n      }\n      pokemon_v2_pokemonsprites {\n        sprites\n      }\n    }\n  }\n  "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
