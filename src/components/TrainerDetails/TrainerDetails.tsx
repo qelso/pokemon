@@ -32,10 +32,6 @@ export default function TrainerDetails({ details, setDetails, validateRef }: Tra
 
     const { data, loading, error } = useQuery(POKEMON_TYPES_QUERY);
 
-    useEffect(() => {
-        console.log(data);
-    }, [data])
-
     /*useEffect(() => {
         const api = new PokemonClient();
         api.listTypes()
