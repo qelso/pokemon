@@ -1,4 +1,4 @@
-import PokemonListItem from "./PokemonListItem"
+import PokemonListItem, { PokemonItem } from "./PokemonListItem"
 import { gql } from "../../../__generated__";
 import { Generation } from "../../../lib/utils/pokemogens";
 import { useQuery } from "@apollo/client";
@@ -40,8 +40,8 @@ const NOT_FAV_TYPE_POKEMONS_QUERY = gql(` query getNonFavTypePokemons($favourite
 type PokemonListProps = {
     favouriteType: string
     generation: Generation
-    selectedPokemon: string
-    setSelectedPokemon: React.Dispatch<React.SetStateAction<string>>
+    selectedPokemon: PokemonItem
+    setSelectedPokemon: React.Dispatch<React.SetStateAction<PokemonItem>>
 
 }
 
@@ -108,20 +108,32 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
         }, [offset])
         */
 
-    useEffect(()=>{
-        if(!favPokemonsQuery.loading && favPokemonsQuery.data && favPokemonsQuery.data.pokemon_v2_pokemon.length>0 && !firstSelect.current) {
+    useEffect(() => {
+        if (!favPokemonsQuery.loading && favPokemonsQuery.data && favPokemonsQuery.data.pokemon_v2_pokemon.length > 0 && !firstSelect.current) {
             firstSelect.current = true;
-            setSelectedPokemon(favPokemonsQuery.data.pokemon_v2_pokemon[0].name);
+            const pokemonItem: PokemonItem = {
+                name: favPokemonsQuery.data.pokemon_v2_pokemon[0].name,
+                spriteUrl: favPokemonsQuery.data.pokemon_v2_pokemon[0].pokemon_v2_pokemonsprites[0].sprites,
+                types: favPokemonsQuery.data.pokemon_v2_pokemon[0].pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)
+
+            }
+            setSelectedPokemon(pokemonItem);
         }
-        else if(!pokemonsQuery.loading && pokemonsQuery.data && pokemonsQuery.data.pokemon_v2_pokemon.length>0 && !firstSelect.current) {
+        else if (!pokemonsQuery.loading && pokemonsQuery.data && pokemonsQuery.data.pokemon_v2_pokemon.length > 0 && !firstSelect.current) {
             firstSelect.current = true;
-            setSelectedPokemon(pokemonsQuery.data.pokemon_v2_pokemon[0].name);
+            const pokemonItem: PokemonItem = {
+                name: pokemonsQuery.data.pokemon_v2_pokemon[0].name,
+                spriteUrl: pokemonsQuery.data.pokemon_v2_pokemon[0].pokemon_v2_pokemonsprites[0].sprites,
+                types: pokemonsQuery.data.pokemon_v2_pokemon[0].pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)
+
+            }
+            setSelectedPokemon(pokemonItem);
         }
-    },[favPokemonsQuery.loading])
+    }, [favPokemonsQuery.loading])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPokemonSearchText(event.target.value)
-        containerRef.current?.scrollTo({top:0})
+        containerRef.current?.scrollTo({ top: 0 })
     }
 
     return <React.Fragment>
@@ -129,16 +141,28 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
         <div ref={containerRef} className="list" >
             {!favPokemonsQuery.loading && favPokemonsQuery.data?.pokemon_v2_pokemon
                 .filter(pokemon => pokemon.name.startsWith(pokemonSearchText.toLowerCase()))
-                .map((pokemon, index) =>
-                    <PokemonListItem key={pokemon.name} name={pokemon.name} spriteUrl={pokemon.pokemon_v2_pokemonsprites[0].sprites} types={pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)} onClick={()=>{setSelectedPokemon(pokemon.name)}} selected={pokemon.name === selectedPokemon}/>
+                .map((pokemon, index) => {
+                    const pokemonItem: PokemonItem = {
+                        name: pokemon.name,
+                        spriteUrl: pokemon.pokemon_v2_pokemonsprites[0].sprites,
+                        types: pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)
+
+                    }
+                    return <PokemonListItem key={pokemon.name} pokemon={pokemonItem} onClick={() => { setSelectedPokemon(pokemonItem) }} selected={pokemon.name === selectedPokemon.name} />
+                }
                 )}
 
             {!pokemonsQuery.loading && pokemonsQuery.data?.pokemon_v2_pokemon
                 .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
-                .map((pokemon, index) =>
+                .map((pokemon, index) => {
+                    const pokemonItem: PokemonItem = {
+                        name: pokemon.name,
+                        spriteUrl: pokemon.pokemon_v2_pokemonsprites[0].sprites,
+                        types: pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)
 
-                    <PokemonListItem key={pokemon.name} name={pokemon.name} spriteUrl={pokemon.pokemon_v2_pokemonsprites[0].sprites} types={pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)} onClick={()=>{setSelectedPokemon(pokemon.name)}} selected={pokemon.name === selectedPokemon}/>
-
+                    }
+                    return <PokemonListItem key={pokemon.name} pokemon={pokemonItem} onClick={() => { setSelectedPokemon(pokemonItem) }} selected={pokemon.name === selectedPokemon.name} />
+                }
                 )}
             {(favPokemonsQuery.error || pokemonsQuery.error) && <p className="error">There was a problem retrieving Pokemons</p>}
         </div>

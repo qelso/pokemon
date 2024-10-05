@@ -11,7 +11,7 @@ type StepperProps = {
     active: number;
 }
 
-const Stepper: React.FC<StepperProps> = ({ steps, active }) => {
+function Stepper({ steps, active }: StepperProps) {
 
     return (
         <div className="stepper-container">
@@ -19,14 +19,14 @@ const Stepper: React.FC<StepperProps> = ({ steps, active }) => {
                 {steps.map((step, index) => {
                     const selectedClass = index <= active ? 'selected' : ''
                     return (
-                        <div className='step'>
-                        <div className={`step-circle ${selectedClass}`}>{index + 1}</div>
-                        <div
-                            key={step.title}
-                            className={`step-label ${selectedClass}`}
-                        >
-                            {step.title}
-                        </div>
+                        <div className='step' key={step.title}>
+                            <div className={`step-circle ${selectedClass}`}>{index + 1}</div>
+                            <div
+                                key={step.title}
+                                className={`step-label ${selectedClass}`}
+                            >
+                                {step.title}
+                            </div>
                         </div>
                     )
                 })}

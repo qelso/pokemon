@@ -55,15 +55,10 @@
         }
     }
 
-    .pokemon-team {
-        border: 1px solid grey;
+    .team-container {
         margin-top: 10px;
-        display: flex;
-        padding: 20px;
-
-        .team-container {
-            flex:1;
-        }
+        padding: 10px;
+        border: 1px solid gray;
     }
 
 

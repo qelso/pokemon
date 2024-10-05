@@ -3,6 +3,8 @@ import "./TeamSelection.css"
 import { PokemonGenerations } from "../../lib/utils/pokemogens"
 import PokemonList from "./PokemonList/PokemonList"
 import PokemonDetails from "./PokemonDetails/PokemonDetails"
+import PokemonTeam from "./PokemonTeam/PokemonTeam"
+import { PokemonItem } from "./PokemonList/PokemonListItem"
 
 type TeamSelectionProps = {
     favouriteType: string
@@ -10,7 +12,12 @@ type TeamSelectionProps = {
 
 export default function TeamSelection({ favouriteType }: TeamSelectionProps) {
     const [currentListTab, setCurrentListTab] = useState(0)
-    const [selectedPokemon, setSelectedPokemon] = useState("")
+    const [selectedPokemon, setSelectedPokemon] = useState<PokemonItem>({
+        name:"",
+        spriteUrl:"",
+        types:[]
+    })
+    const [pokemonTeam, setPokemonTeam] = useState<PokemonItem[]>([])
 
     return <div className="team-selection">
 
@@ -33,17 +40,13 @@ export default function TeamSelection({ favouriteType }: TeamSelectionProps) {
             </div>
 
             <div className="details-container">
-                <PokemonDetails pokemon={selectedPokemon} />
+                <PokemonDetails pokemon={selectedPokemon} setPokemonTeam={setPokemonTeam}/>
             </div>
 
         </div>
 
-        <div className="pokemon-team">
-            <h3>Your Team</h3>
-            <div className="team-container">
-
-            </div>
-            
+        <div className="team-container">
+            <PokemonTeam pokemons={pokemonTeam}></PokemonTeam>
 
         </div>
 
