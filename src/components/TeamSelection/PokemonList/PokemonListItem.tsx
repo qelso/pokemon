@@ -10,15 +10,15 @@ type PokemonListItemProps = {
 
 export default function PokemonListItem({ spriteUrl, name, types, selected, onClick }: PokemonListItemProps) {
     return <div className={`list-item-container ${selected ? "selected" : ""}`} onClick={onClick}>
-        <img src={spriteUrl} className="list-item-image" />
+        <img src={spriteUrl} className="pokemon-sprite" />
 
-        <div className="main-label-container">
-            <span className="main-label">{firstLetterUppercase(name)}</span>
+        <div className="pokemon-name-container">
+            <span className="pokemon-name">{firstLetterUppercase(name)}</span>
         </div>
 
-        <div className="additional-labels-container">
+        <div className="types-container">
             {types.map((name, index) => (
-                <span key={index} className="additional-label">
+                <span key={index} className="type">
                     {firstLetterUppercase(name)}
                 </span>
             ))}

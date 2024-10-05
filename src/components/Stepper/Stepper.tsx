@@ -16,14 +16,20 @@ const Stepper: React.FC<StepperProps> = ({ steps, active }) => {
     return (
         <div className="stepper-container">
             <div className="stepper-header">
-                {steps.map((step, index) => (
-                    <div
-                        key={step.title}
-                        className={`step-item`}
-                    >
-                        {step.title}
-                    </div>
-                ))}
+                {steps.map((step, index) => {
+                    const selectedClass = index <= active ? 'selected' : ''
+                    return (
+                        <div className='step'>
+                        <div className={`step-circle ${selectedClass}`}>{index + 1}</div>
+                        <div
+                            key={step.title}
+                            className={`step-label ${selectedClass}`}
+                        >
+                            {step.title}
+                        </div>
+                        </div>
+                    )
+                })}
             </div>
             <div className="stepper-content">
                 {steps[active].content}

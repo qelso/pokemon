@@ -4,13 +4,19 @@
     width: 100%;
     max-width: 100%;
     align-items: center;
-    flex-grow: 1;
     overflow: auto;
 
-    .header {
+    .title {
         display: flex;
         flex-direction: row;
     }
+
+    .heading {
+        margin-top: 20px;
+        margin-left: 10px;
+        align-self: flex-start;
+    }
+
     .sprite-image {
         width: 100px;
         height: 100px;
@@ -22,12 +28,11 @@
         display: grid;
         grid-template-columns: auto 1fr;
         gap: 2px;
-        max-width: 500px;
         margin: 3px;
     }
 
     .key {
-        text-align: right;
+        text-align: left;
         padding-right: 10px;
     }
 
@@ -38,17 +43,40 @@
 
     .moves {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 columns of equal width */
-        grid-gap: 10px; /* Space between the cards */
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
         width: 90%;
-      }
-  
-      .move {
+    }
+
+    .move {
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 8px;
         text-align: center;
-      }
+    }
+
+    .forms {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns of equal width */
+        grid-gap: 10px;
+        /* Space between the cards */
+        width: 90%;
+    }
+
+    .abilities {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        width: 90%;
+    }
+
+    .ability {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+    }
 
     .header {
         align-self: flex-start;

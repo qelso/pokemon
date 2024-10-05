@@ -7,7 +7,7 @@ import './PokemonList.css'
 
 const FAV_TYPE_POKEMONS_QUERY = gql(/*Graph QL*/ `
 query GetFavTypePokemons($favouriteType: String, $first: Int, $last: Int) {
-    pokemon_v2_pokemon(where: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $favouriteType}}}, id: {_gte: $first, _lte: $last}}, limit: 200 ) {
+    pokemon_v2_pokemon(where: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $favouriteType}}}, id: {_gte: $first, _lte: $last}}, limit: 200, order_by: {id:asc}) {
       name
       pokemon_v2_pokemonsprites {
         sprites(path: "front_default")
@@ -23,7 +23,7 @@ query GetFavTypePokemons($favouriteType: String, $first: Int, $last: Int) {
 `)
 
 const NOT_FAV_TYPE_POKEMONS_QUERY = gql(` query getNonFavTypePokemons($favouriteType: String, $first: Int, $last: Int) {
-    pokemon_v2_pokemon(where: {_not: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $favouriteType}}}}, id: {_gte: $first, _lte: $last}}, limit: 200) {
+    pokemon_v2_pokemon(where: {_not: {pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_eq: $favouriteType}}}}, id: {_gte: $first, _lte: $last}}, limit: 200, order_by: {id:asc}) {
       name
       pokemon_v2_pokemonsprites {
         sprites(path: "front_default")
@@ -60,6 +60,8 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
             favouriteType, first: generation.first, last: generation.last
         }
     })
+
+    const firstSelect = useRef(false)
 
     const containerRef = useRef<HTMLDivElement | null>(null)
     /*
@@ -106,6 +108,17 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
         }, [offset])
         */
 
+    useEffect(()=>{
+        if(!favPokemonsQuery.loading && favPokemonsQuery.data && favPokemonsQuery.data.pokemon_v2_pokemon.length>0 && !firstSelect.current) {
+            firstSelect.current = true;
+            setSelectedPokemon(favPokemonsQuery.data.pokemon_v2_pokemon[0].name);
+        }
+        else if(!pokemonsQuery.loading && pokemonsQuery.data && pokemonsQuery.data.pokemon_v2_pokemon.length>0 && !firstSelect.current) {
+            firstSelect.current = true;
+            setSelectedPokemon(pokemonsQuery.data.pokemon_v2_pokemon[0].name);
+        }
+    },[favPokemonsQuery.loading])
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPokemonSearchText(event.target.value)
         containerRef.current?.scrollTo({top:0})
@@ -115,7 +128,7 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
         <input type="text" onChange={handleChange} placeholder="Search a Pokemon..."></input>
         <div ref={containerRef} className="list" >
             {!favPokemonsQuery.loading && favPokemonsQuery.data?.pokemon_v2_pokemon
-                .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
+                .filter(pokemon => pokemon.name.startsWith(pokemonSearchText.toLowerCase()))
                 .map((pokemon, index) =>
                     <PokemonListItem key={pokemon.name} name={pokemon.name} spriteUrl={pokemon.pokemon_v2_pokemonsprites[0].sprites} types={pokemon.pokemon_v2_pokemontypes.map(type => type.pokemon_v2_type!.name)} onClick={()=>{setSelectedPokemon(pokemon.name)}} selected={pokemon.name === selectedPokemon}/>
                 )}

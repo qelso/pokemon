@@ -4,8 +4,30 @@
 
     .stepper-header {
         display: flex;
-        flex-direction: row;
         justify-content: space-around;
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .step-circle {
+                border: solid 1px black;
+                border-radius: 32px;
+                height: 32px;
+                width: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 8px;
+            }
+
+            .selected {
+                color: blue;
+                font-weight: bold;
+                border-color: blue;
+            }
+        }
     }
     
     .stepper-content {
@@ -15,11 +37,10 @@
         max-height: 600px;
         max-width: 900px;
         justify-content: center;
-        align-items: center;
-        padding: 30px;
+        margin:30px;
+        padding: 15px;
+        border: 2px solid;
         align-self: center;
     }
-
-
 }
 
