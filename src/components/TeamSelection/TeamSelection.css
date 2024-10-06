@@ -18,7 +18,6 @@
             display: flex;
             flex-direction: column;
             max-height: inherit;
-            height: inherit;
 
 
             .list-container {

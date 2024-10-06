@@ -18,10 +18,24 @@ function App() {
 
     const validateRef = useRef<(() => boolean) | null>(null);
 
+    const handleNameChange = (s:string) => {
+        setTrainerData(prev => ({ ...prev, name: s }))
+    };
+    const handleTeamNameChange = (s:string) => {
+        setTrainerData(prev => ({ ...prev, teamName: s }))
+    }
+    const handleFavTypeChange = (s:string) => {
+        setTrainerData(prev => ({ ...prev, favType: s}))
+    }
+
     const wizardSteps: Step[] = [
         {
             title: 'Trainer Details',
-            content: <TrainerDetails details={trainerData} setDetails={setTrainerData} validateRef={validateRef} />
+            content: <TrainerDetails 
+                details={trainerData} validateRef={validateRef} 
+                onNameChange={handleNameChange} 
+                onTeamNameChange={handleTeamNameChange}
+                onFavTypeChange={handleFavTypeChange} />
         },
         {
             title: 'Team Selection',

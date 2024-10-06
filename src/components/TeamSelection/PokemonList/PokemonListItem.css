@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #ccc;
   background-color: #fff;
+  flex-grow:1;
 
 
   .pokemon-sprite {
@@ -34,6 +34,6 @@
   }
 }
 
-.selected {
+.list-item-container.selected {
   border: 2px solid blue;
 }

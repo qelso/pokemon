@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { gql } from "../../../__generated__"
 import "./PokemonDetails.css"
 import { firstLetterUppercase } from "../../../lib/utils/utils";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { PokemonItem } from "../PokemonList/PokemonListItem";
 
 const GET_POKEMON_DETAILS_QUERY = gql(`query GetPokemonDetails($pokemon: String = "pikachu") {
@@ -45,31 +45,23 @@ const GET_POKEMON_DETAILS_QUERY = gql(`query GetPokemonDetails($pokemon: String 
 
 type PokemonDetailsProps = {
   pokemon: PokemonItem
-  setPokemonTeam: React.Dispatch<React.SetStateAction<PokemonItem[]>>
 }
 
-export default function PokemonDetails({ pokemon, setPokemonTeam }: PokemonDetailsProps) {
-
-  let data, loading, error;
-
-  const handleAddPokemon = () => {
-    setPokemonTeam(prev => [...prev, pokemon])
-  }
+const PokemonDetails = React.forwardRef<HTMLDivElement, PokemonDetailsProps>(({pokemon},ref ) => {
 
   const pokemonQuery = useQuery(GET_POKEMON_DETAILS_QUERY, {
     variables: {
       pokemon: pokemon.name
     }
   })
-  data = pokemonQuery.data;
-  loading = pokemonQuery.loading;
-  error = pokemonQuery.error;
 
-  if (error) return <p className="error">Error when retrieve pokemon data. Please retry</p>
+  const {data, loading, error} = pokemonQuery;
+
+  if (error) return <p className="error">Error when retrieving pokemon data. Please retry</p>
   if (!loading && data && data.pokemon_v2_pokemon.length > 0) {
     const pokemonData = data.pokemon_v2_pokemon[0];
     return <>
-      <div className="details-card">
+      <div className="details-card" ref={ref}>
 
         <div className="title">
           <img src={pokemonData.pokemon_v2_pokemonsprites[0].sprites["front_default"]} className="sprite-image" />
@@ -118,8 +110,9 @@ export default function PokemonDetails({ pokemon, setPokemonTeam }: PokemonDetai
 
 
       </div>
-      <button style={{ padding: "10px" }} onClick={handleAddPokemon}>Add to your team</button>
     </>
   }
 
-}
+})
+
+export default PokemonDetails;

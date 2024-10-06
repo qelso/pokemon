@@ -22,7 +22,7 @@
                 margin-bottom: 8px;
             }
 
-            .selected {
+            .current {
                 color: blue;
                 font-weight: bold;
                 border-color: blue;

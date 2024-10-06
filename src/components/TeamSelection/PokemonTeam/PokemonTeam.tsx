@@ -1,25 +1,30 @@
+import React from 'react'
+import { MAX_TRAINER_POKEMONS } from '../../../config'
 import PokemonListItem, { PokemonItem } from '../PokemonList/PokemonListItem'
-import PokemonMember from './PokemonMember'
 import './PokemonTeam.css'
 type PokemonTeamProps = {
-    pokemons: PokemonItem[]
+    pokemons: (PokemonItem)[]
+    onRemove: (_:number) => void
+    onSelect: (_:PokemonItem) => void
 }
 
 const MAX_POKEMONS = 7
 
-export default function PokemonTeam({ pokemons }: PokemonTeamProps) {
+export default function PokemonTeam({ pokemons, onRemove, onSelect }: PokemonTeamProps) {
+
+    const gridItems: (PokemonItem | null)[] = [...pokemons, ...Array(MAX_TRAINER_POKEMONS - pokemons.length).fill(null)]
 
     return <>
         <h3>Your Team</h3>
-        {pokemons.length < 1 ? <span>
-            No Pokemons added.
-        </span> :
-            <div className="pokemon-team-grid">
-                {pokemons.map((pokemon,index) => (
-                    <div className="grid-item" key={`${pokemon.name}${index}`}>
-                        <PokemonListItem pokemon={pokemon} selected={false} onClick={() => { }} />
-                    </div>))}
-            </div>}
+        <div className="pokemon-team-grid">
+            {gridItems.map((pokemon, index) => (
+                <div className={`grid-item ${pokemon ? "" : "empty"}`} key={`${pokemon ? pokemon.name : "empty"}${index}`}>
+                    {pokemon ? <React.Fragment>
+                        <button className='delete-button' onClick={()=>onRemove(index)}>x</button>
+                        <PokemonListItem pokemon={pokemon} selected={false} onClick={() => onSelect(pokemon)} />
+                    </React.Fragment> : "Empty"}
+                </div>))}
+        </div>
     </>
 
 }

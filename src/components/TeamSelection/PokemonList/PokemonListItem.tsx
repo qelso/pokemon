@@ -4,6 +4,7 @@ import "./PokemonListItem.css"
 export type PokemonItem = {
     spriteUrl: string
     name: string
+    id: number
     types: string[]
 }
 

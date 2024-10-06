@@ -1,14 +1,29 @@
 .pokemon-team-grid {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
-    grid-auto-flow: column;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-flow: row;
     width: 100%;
-    gap: 10px;
-    overflow: auto;
+    gap: 5px;
 
-}
+    .grid-item {
+        display: flex;
+        height: 75px;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        background-color: white;
+        position:relative;
 
-.grid-item {
-    width:200px;
-    height: 100%;
+        .delete-button {
+            position: absolute;
+            top:0px;
+            right:0px;
+        }
+    }
+
+    .grid-item.empty {
+        border: 1px solid #ececec;
+        color: #ececec;
+    }
+
 }

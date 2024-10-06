@@ -12,7 +12,9 @@ export type TrainerDetailsData = {
 
 type TrainerDetailsProps = {
     details: TrainerDetailsData,
-    setDetails: React.Dispatch<React.SetStateAction<TrainerDetailsData>>
+    onNameChange: (_:string)=>void,
+    onTeamNameChange: (_:string)=>void,
+    onFavTypeChange: (_:string)=>void,
     validateRef: React.MutableRefObject<(() => boolean) | null>
 }
 
@@ -23,24 +25,13 @@ query PokemonTypes {
     }
   }`);
 
-export default function TrainerDetails({ details, setDetails, validateRef }: TrainerDetailsProps) {
-
-    const [types, setTypes] = useState<Record<'name' | 'url', string>[]>([]);
+export default function TrainerDetails({ details, onNameChange, onTeamNameChange, onFavTypeChange, validateRef }: TrainerDetailsProps) {
 
     const [nameError, setNameError] = useState<string>('');
     const [teamNameError, setTeamNameError] = useState<string>('');
     const [favTypeError, setFavTypeError] = useState<string>('');
 
     const { data, loading, error } = useQuery(POKEMON_TYPES_QUERY);
-
-    /*useEffect(() => {
-        const api = new PokemonClient();
-        api.listTypes()
-            .then(({ results }) => {
-                setTypes(results);
-            })
-            .catch(e => console.error(e))
-    }, [])*/
 
     const validateName = () => {
         if (!details.name) {
@@ -73,18 +64,7 @@ export default function TrainerDetails({ details, setDetails, validateRef }: Tra
         return nameValidation && teamNameValidation && favTypeValidation;
     }
 
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDetails(prev => ({ ...prev, name: e.target.value }))
-        setNameError("")
-    };
-    const handleTeamNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDetails(prev => ({ ...prev, teamName: e.target.value }))
-        setTeamNameError("")
-    }
-    const handleFavTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setDetails(prev => ({ ...prev, favType: e.target.value }))
-        setFavTypeError("")
-    }
+
 
     validateRef.current = validate;
 
@@ -92,19 +72,28 @@ export default function TrainerDetails({ details, setDetails, validateRef }: Tra
         <form className="trainerForm">
             <div>
                 <label htmlFor="trainerName">Trainer name:</label>
-                <input type="text" name="trainerName" value={details.name} onChange={handleNameChange}></input>
+                <input type="text" name="trainerName" value={details.name} onChange={(e)=>{
+                    onNameChange(e.target.value)
+                    setNameError("")
+                }}></input>
                 {nameError && <p className="error">{nameError}</p>}
             </div>
 
             <div>
                 <label htmlFor="teamName">Team name:</label>
-                <input type="text" name="teamName" value={details.teamName} onChange={handleTeamNameChange}></input>
+                <input type="text" name="teamName" value={details.teamName} onChange={(e)=>{
+                    onTeamNameChange(e.target.value)
+                    setTeamNameError("")
+                }}></input>
                 {teamNameError && <p className="error">{teamNameError}</p>}
             </div>
 
             <div>
                 <label htmlFor="favType">Favourite Pokemon Type:</label>
-                <select name="favType" value={details.favType} onChange={handleFavTypeChange} required>
+                <select name="favType" value={details.favType} onChange={(e)=>{
+                    onFavTypeChange(e.target.value)
+                    setFavTypeError("")
+                }} required>
                     <option key={'empty'} value={''}></option>
                     {!loading && data?.pokemon_v2_type.map(type =>
                         <option key={type.name} value={type.name}>{firstLetterUppercase(type.name)}</option>)

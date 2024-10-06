@@ -17,7 +17,7 @@ function Stepper({ steps, active }: StepperProps) {
         <div className="stepper-container">
             <div className="stepper-header">
                 {steps.map((step, index) => {
-                    const selectedClass = index <= active ? 'selected' : ''
+                    const selectedClass = index <= active ? 'current' : ''
                     return (
                         <div className='step' key={step.title}>
                             <div className={`step-circle ${selectedClass}`}>{index + 1}</div>
