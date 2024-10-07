@@ -44,7 +44,6 @@ export default function OpponentTeam({ trainerTeam, team, onTeamChange, validate
     
 
     const generateTeam = async () => {
-        console.log("generating")
         let opponentTeam: Pokemon[] = []
         const api = new PokemonClient()
 
