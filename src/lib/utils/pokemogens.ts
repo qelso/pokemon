@@ -4,7 +4,6 @@ export type Generation = {
     last: number,
 }
 
- // query all generations
 export const POKEMON_GENERATIONS: Generation[] = [
         {
             label: "Gen1",

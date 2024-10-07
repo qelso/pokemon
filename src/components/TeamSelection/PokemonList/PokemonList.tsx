@@ -64,49 +64,6 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
     })
 
     const containerRef = useRef<HTMLDivElement | null>(null)
-    /*
-        useEffect(() => {
-            const handleScroll = () => {
-                const container = containerRef.current;
-                if (container && container.scrollHeight - container.scrollTop === container.clientHeight) {
-                    setOffset(prev => prev + 10)
-                }
-            };
-     
-            const container = containerRef.current;
-            if (container) {
-                container.addEventListener("scroll", handleScroll);
-            }
-     
-            return () => {
-                if (container) {
-                    container.removeEventListener("scroll", handleScroll);
-                }
-            };
-        }, []);
-     
-        useEffect(() => {
-            if (offset !== 0 && !pokemonEnd) {
-     
-                favPokemonsQuery.fetchMore({
-                    variables: {
-                        offset: offset
-                    },
-                    updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
-                        if (!fetchMoreResult.pokemon_v2_pokemon) {
-                            setPokemonEnd(true);
-                            return prev;
-                        }
-                        console.log('fetching more', fetchMoreResult.pokemon_v2_pokemon)
-                        return Object.assign({}, prev, {
-                            pokemon_v2_pokemon: [...prev.pokemon_v2_pokemon, ...fetchMoreResult.pokemon_v2_pokemon]
-                        })
-                    }
-                })
-            }
-        }, [offset])
-        */
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPokemonSearchText(event.target.value.toLowerCase())
@@ -115,7 +72,7 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
 
     return <React.Fragment>
         <input type="text" onChange={handleChange} placeholder="Search a Pokemon..."></input>
-        <div ref={containerRef} className="list" >
+        <div ref={containerRef} className="list" data-testid="pokemon-list">
             {!favPokemonsQuery.loading && favPokemonsQuery.data?.pokemon_v2_pokemon
                 .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
                 .map((pokemon, index) => {

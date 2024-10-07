@@ -72,7 +72,6 @@ function App() {
     ]
 
     const handlePrevious = () => {
-
         setCurrentStep(prev => prev - 1);
     }
 
