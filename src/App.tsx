@@ -4,7 +4,10 @@ import Stepper, { Step } from './components/Stepper/Stepper';
 import { useState, useRef } from 'react';
 import TrainerDetails, { TrainerDetailsData } from './components/TrainerDetails/TrainerDetails';
 import TeamSelection from './components/TeamSelection/TeamSelection';
-
+import { PokemonItem } from './components/TeamSelection/PokemonList/PokemonListItem';
+import OpponentTeam from './components/OpponentTeam/OpponentTeam';
+import { Pokemon } from 'pokenode-ts';
+import PokemonWizardSubmit from './components/WizardSubmit/PokemonWizardSubmit';
 
 
 function App() {
@@ -14,37 +17,55 @@ function App() {
     const [trainerData, setTrainerData] = useState<TrainerDetailsData>({ name: '', teamName: '', favType: '' })
 
     // pokemon team
-    const [team, setTeam] = useState([])
+    const [team, setTeam] = useState<PokemonItem[]>([])
 
+    // opponent teeam
+    const [opponentTeam, setOpponentTeam] = useState<Pokemon[]>([])
+
+    // validation reference for each wizard step
     const validateRef = useRef<(() => boolean) | null>(null);
 
-    const handleNameChange = (s:string) => {
+    // mock submit
+    const [submitted, setSubmitted] = useState(false)
+
+    const handleNameChange = (s: string) => {
         setTrainerData(prev => ({ ...prev, name: s }))
     };
-    const handleTeamNameChange = (s:string) => {
+    const handleTeamNameChange = (s: string) => {
         setTrainerData(prev => ({ ...prev, teamName: s }))
     }
-    const handleFavTypeChange = (s:string) => {
-        setTrainerData(prev => ({ ...prev, favType: s}))
+    const handleFavTypeChange = (s: string) => {
+        setTrainerData(prev => ({ ...prev, favType: s }))
+    }
+
+    const handleAddPokemonToTeam = (pokemon: PokemonItem) => {
+        setTeam(prev => [...prev, pokemon])
+    }
+    const handleRemovePokemonFromTeam = (i: number) => {
+        setTeam(prev => prev.filter((item, index) => index !== i))
+    }
+
+    const handleOpponentTeamChange = (team: Pokemon[]) => {
+        setOpponentTeam(team)
     }
 
     const wizardSteps: Step[] = [
         {
             title: 'Trainer Details',
-            content: <TrainerDetails 
-                details={trainerData} validateRef={validateRef} 
-                onNameChange={handleNameChange} 
+            content: <TrainerDetails
+                details={trainerData} validateRef={validateRef}
+                onNameChange={handleNameChange}
                 onTeamNameChange={handleTeamNameChange}
                 onFavTypeChange={handleFavTypeChange} />
         },
         {
             title: 'Team Selection',
-            content: <TeamSelection favouriteType={trainerData.favType}/>
+            content: <TeamSelection favouriteType={trainerData.favType} team={team} validateRef={validateRef} onAdd={handleAddPokemonToTeam} onRemove={handleRemovePokemonFromTeam} />
         },
 
         {
             title: 'Opponent Team',
-            content: <div>Ciao 3</div>
+            content: <OpponentTeam trainerTeam={team} team={opponentTeam} onTeamChange={handleOpponentTeamChange} validateRef={validateRef} />
         },
 
 
@@ -62,7 +83,16 @@ function App() {
     }
 
     const handleFinish = () => {
+        if (validateRef.current && validateRef.current())
+            setSubmitted(true)
+    }
 
+    const handleRestart = () => {
+        setTrainerData({ name: '', teamName: '', favType: '' })
+        setTeam([])
+        setOpponentTeam([])
+        setCurrentStep(0)
+        setSubmitted(false)
     }
 
     return (
@@ -72,11 +102,22 @@ function App() {
                     Pokemon Wizard
                 </h1>
             </div>
-            <Stepper steps={wizardSteps} active={currentStep} />
-            <div className="wizard-buttons">
-                <button onClick={handlePrevious} disabled={currentStep === 0}>Previous</button>
-                {currentStep < wizardSteps.length - 1 ? <button onClick={handleNext}>Next</button> : <button onClick={handleFinish}>Finish</button>}
-            </div>
+            {
+                submitted ? <>
+                    <PokemonWizardSubmit />
+                    <div className="wizard-buttons">
+                        <button onClick={handleRestart}>Restart</button>
+                    </div>
+                </> :
+                    <>
+                        <Stepper steps={wizardSteps} active={currentStep} />
+                        <div className="wizard-buttons">
+                            <button onClick={handlePrevious} disabled={currentStep === 0}>Previous</button>
+                            {currentStep < wizardSteps.length - 1 ? <button onClick={handleNext}>Next</button> : <button onClick={handleFinish}>Finish</button>}
+                        </div>
+                    </>
+            }
+
         </div>
     )
 }

@@ -1,0 +1,26 @@
+.wizard-submit-container {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .wizard-submit-window {
+        display: flex;
+        height: 600px;
+        width: 900px;
+        max-height: 600px;
+        max-width: 900px;
+        justify-content: center;
+        margin-top: 90px;
+        margin-bottom: 30px;
+        padding: 15px;
+        border: 2px solid;
+        align-items: center;
+
+        .text {
+            font-size: 30px;
+            font-weight: bold;
+        }
+    }
+
+}

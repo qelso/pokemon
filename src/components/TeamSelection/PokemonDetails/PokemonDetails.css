@@ -6,9 +6,17 @@
     align-items: center;
     overflow: auto;
 
+
     .title {
         display: flex;
-        flex-direction: row;
+        width: 100%;
+
+        .labels {
+            .name {
+
+            }
+
+        }
     }
 
     .heading {

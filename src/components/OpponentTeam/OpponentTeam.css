@@ -1,0 +1,50 @@
+.opponent-team-container {
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    max-height: inherit;
+    width: inherit;
+    max-width: inherit;
+    justify-content: space-between;
+    align-items: center;
+
+    .opponent-team-cards {
+        width: inherit;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        .card {
+            border: 1px solid black;
+            margin: 5px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 16px;
+
+            .sprite {
+                height: 75px;
+                width: 75px;
+            }
+
+            .stats {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                gap: 2px;
+                margin: 10px;
+            }
+
+            .key {
+                text-align: left;
+                padding-right: 10px;
+            }
+
+            .value {
+                text-align: left;
+            }
+        }
+    }
+
+    .button {}
+
+}

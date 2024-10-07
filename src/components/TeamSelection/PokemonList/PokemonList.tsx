@@ -43,7 +43,7 @@ type PokemonListProps = {
     favouriteType: string
     generation: Generation
     selectedPokemon: PokemonItem | undefined
-    handleSelectPokemon: (_:PokemonItem)=>void
+    handleSelectPokemon: (_: PokemonItem) => void
 
 }
 
@@ -72,22 +72,22 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
                     setOffset(prev => prev + 10)
                 }
             };
-    
+     
             const container = containerRef.current;
             if (container) {
                 container.addEventListener("scroll", handleScroll);
             }
-    
+     
             return () => {
                 if (container) {
                     container.removeEventListener("scroll", handleScroll);
                 }
             };
         }, []);
-    
+     
         useEffect(() => {
             if (offset !== 0 && !pokemonEnd) {
-    
+     
                 favPokemonsQuery.fetchMore({
                     variables: {
                         offset: offset
@@ -109,7 +109,7 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
         */
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPokemonSearchText(event.target.value)
+        setPokemonSearchText(event.target.value.toLowerCase())
         containerRef.current?.scrollTo({ top: 0 })
     }
 
@@ -117,7 +117,7 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
         <input type="text" onChange={handleChange} placeholder="Search a Pokemon..."></input>
         <div ref={containerRef} className="list" >
             {!favPokemonsQuery.loading && favPokemonsQuery.data?.pokemon_v2_pokemon
-                .filter(pokemon => pokemon.name.startsWith(pokemonSearchText.toLowerCase()))
+                .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
                 .map((pokemon, index) => {
                     const pokemonItem: PokemonItem = {
                         name: pokemon.name,

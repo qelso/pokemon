@@ -5,7 +5,7 @@ export type Generation = {
 }
 
  // query all generations
-export const PokemonGenerations: Generation[] = [
+export const POKEMON_GENERATIONS: Generation[] = [
         {
             label: "Gen1",
             first: 1,
