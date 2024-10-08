@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("Wizard full flow", async ({ page }) => {
   // first load
-  await page.goto("http://localhost:5174/");
+  await page.goto("http://localhost:5173/");
   await expect(page).toHaveTitle(/Pokemon Wizard/);
 
   // try to advance to step 2 without compiling forms

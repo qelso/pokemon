@@ -1,5 +1,3 @@
-import { visitWithTypeInfo } from "graphql"
-
 type PokemonMemberProps = {
     name: string
 }

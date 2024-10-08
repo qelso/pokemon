@@ -1,50 +1,51 @@
-# React + TypeScript + Vite
+# ContentWise Pokemon Wizard Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a submission for the ContentWise's FE Challenge.
 
-Currently, two official plugins are available:
+Built with Vite, React and Playwright as e2e test framework.
+NPM is the package manager.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Development environment
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+To install dependencies run
+```
+npm i
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+To spin a dev server run
 ```
+npm run dev
+```
+
+### Apollo GraphQL
+This app uses the Apollo library to handle GraphQL APIs and the GraphQL code generator to load static types. 
+When there are new queries or there are changes on existing queries, run
+```
+npm run compile
+```
+
+Modify the /codegen.ts script to handle GraphQL schemas. 
+More details here https://www.apollographql.com/docs/react/development-testing/static-typing
+
+### E2E Tests 
+To run the Playwright tests, first spin up the dev server, then run
+```
+npx playwright test
+```
+
+Tests are in the /e2e folder.
+
+Currently tested for Chrome and Firefox
+
+## Build 
+To create a build run
+```
+npm run build
+```
+
+The build can be found in the /dist folder.
+
+### Docker
+A Dockerfile is provided to deploy the current build. 
+Docker image exposing on port 80.
+

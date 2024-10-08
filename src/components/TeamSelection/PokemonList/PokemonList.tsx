@@ -2,7 +2,7 @@ import PokemonListItem, { PokemonItem } from "./PokemonListItem"
 import { gql } from "../../../__generated__";
 import { Generation } from "../../../lib/utils/pokemogens";
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import './PokemonList.css'
 
 const FAV_TYPE_POKEMONS_QUERY = gql(/*Graph QL*/ `
@@ -75,7 +75,7 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
         <div ref={containerRef} className="list" data-testid="pokemon-list">
             {!favPokemonsQuery.loading && favPokemonsQuery.data?.pokemon_v2_pokemon
                 .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
-                .map((pokemon, index) => {
+                .map((pokemon) => {
                     const pokemonItem: PokemonItem = {
                         name: pokemon.name,
                         spriteUrl: pokemon.pokemon_v2_pokemonsprites[0].sprites,
@@ -91,7 +91,7 @@ export default function PokemonList({ favouriteType, generation, selectedPokemon
 
             {!pokemonsQuery.loading && pokemonsQuery.data?.pokemon_v2_pokemon
                 .filter(pokemon => pokemon.name.startsWith(pokemonSearchText))
-                .map((pokemon, index) => {
+                .map((pokemon) => {
                     const pokemonItem: PokemonItem = {
                         name: pokemon.name,
                         spriteUrl: pokemon.pokemon_v2_pokemonsprites[0].sprites,

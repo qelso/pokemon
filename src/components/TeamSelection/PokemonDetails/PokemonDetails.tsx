@@ -1,6 +1,6 @@
 import "./PokemonDetails.css"
 import { firstLetterUppercase } from "../../../lib/utils/utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PokemonItem } from "../PokemonList/PokemonListItem";
 import { Pokemon, PokemonClient } from "pokenode-ts";
 

@@ -8,8 +8,6 @@ type PokemonTeamProps = {
     onSelect: (_:PokemonItem) => void
 }
 
-const MAX_POKEMONS = 7
-
 export default function PokemonTeam({ pokemons, onRemove, onSelect }: PokemonTeamProps) {
 
     const gridItems: (PokemonItem | null)[] = [...pokemons, ...Array(MAX_TRAINER_POKEMONS - pokemons.length).fill(null)]

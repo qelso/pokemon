@@ -27,6 +27,7 @@ function App() {
 
     // mock submit
     const [submitted, setSubmitted] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
 
     const handleNameChange = (s: string) => {
         setTrainerData(prev => ({ ...prev, name: s }))
@@ -42,7 +43,7 @@ function App() {
         setTeam(prev => [...prev, pokemon])
     }
     const handleRemovePokemonFromTeam = (i: number) => {
-        setTeam(prev => prev.filter((item, index) => index !== i))
+        setTeam(prev => prev.filter((_, index) => index !== i))
     }
 
     const handleOpponentTeamChange = (team: Pokemon[]) => {
@@ -83,7 +84,7 @@ function App() {
 
     const handleFinish = () => {
         if (validateRef.current && validateRef.current())
-            setSubmitted(true)
+            setSubmitting(true)
     }
 
     const handleRestart = () => {
@@ -92,6 +93,11 @@ function App() {
         setOpponentTeam([])
         setCurrentStep(0)
         setSubmitted(false)
+        setSubmitting(false)
+    }
+
+    const handleSubmit = () => {
+        setSubmitted(true)
     }
 
     return (
@@ -102,11 +108,11 @@ function App() {
                 </h1>
             </div>
             {
-                submitted ? <>
-                    <PokemonWizardSubmit />
-                    <div className="wizard-buttons">
+                submitting ? <>
+                    <PokemonWizardSubmit onSubmit={handleSubmit}/>
+                    {submitted && <div className="wizard-buttons">
                         <button onClick={handleRestart}>Restart</button>
-                    </div>
+                    </div>}
                 </> :
                     <>
                         <Stepper steps={wizardSteps} active={currentStep} />
