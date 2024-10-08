@@ -4,7 +4,11 @@
 
     .stepper-header {
         display: flex;
-        justify-content: space-evenly;
+        width: 900px;
+        border: 2px solid;
+        justify-content: space-between;
+        padding: 15px;
+        align-self: center;
 
         .step {
             display: flex;

@@ -1,5 +1,16 @@
-:root .wizard-buttons{
+:root .wizard-buttons {
         align-items: center;
         display: flex;
         justify-content: space-around;
+}
+
+body {
+        font-family: "Jersey 10", sans-serif;
+        font-style: normal;
+        font-size: large;
+}
+
+button {
+        font-family: inherit;
+        font-size: inherit;
 }
