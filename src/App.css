@@ -6,11 +6,25 @@
 
 body {
         font-family: "Jersey 10", sans-serif;
-        font-style: normal;
-        font-size: large;
+        font-style:normal;
+        font-size:larger;
+        letter-spacing: 2px;
 }
 
 button {
         font-family: inherit;
         font-size: inherit;
+        letter-spacing: inherit;
+}
+
+select {
+        font-family: inherit;
+        font-size: inherit;
+        letter-spacing: inherit;
+}
+
+input {
+        font-family: inherit;
+        font-size: inherit;
+        letter-spacing: inherit;
 }

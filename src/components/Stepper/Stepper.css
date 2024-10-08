@@ -32,13 +32,11 @@
 
             .current {
                 color: blue;
-                font-weight: bold;
                 border-color: blue;
             }
 
             .completed {
                 color: blue;
-                font-weight: bold;
                 border-color: blue;
             }
 
