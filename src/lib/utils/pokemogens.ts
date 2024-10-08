@@ -48,7 +48,7 @@ export const POKEMON_GENERATIONS: Generation[] = [
         {
             label: "Gen9",
             first: 906,
-            last: 1015,
+            last: 1025,
         }
 
     ];
