@@ -1,7 +1,7 @@
 import { PokemonItem } from "../TeamSelection/PokemonList/PokemonListItem"
 import { POKEMON_GENERATIONS } from "../../lib/utils/pokemogens"
 import { MAX_OPPONENT_POKEMONS } from "../../config"
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import { Pokemon, PokemonClient } from "pokenode-ts"
 import './OpponentTeam.css'
 import { firstLetterUppercase } from "../../lib/utils/utils"
@@ -33,7 +33,7 @@ export default function OpponentTeam({ trainerTeam, team, onTeamChange, validate
     const availableGens = getAvailableGenerations()
 
     const validate = () => {
-        if(generating) {
+        if (generating) {
             setTeamError("Wait for opponent team to be generated!")
             return false
         }
@@ -41,7 +41,7 @@ export default function OpponentTeam({ trainerTeam, team, onTeamChange, validate
     }
 
     validateRef.current = validate
-    
+
 
     const generateTeam = async () => {
         let opponentTeam: Pokemon[] = []
@@ -49,28 +49,36 @@ export default function OpponentTeam({ trainerTeam, team, onTeamChange, validate
 
         for (let i = 0; i < MAX_OPPONENT_POKEMONS; i++) {
             const gen = getRandomNum(0, availableGens.length - 1)
-            const pokemonId = getRandomNum(availableGens[gen].first, availableGens[gen].last)
+            const speciesId = getRandomNum(availableGens[gen].first, availableGens[gen].last)
             try {
-                const pokemon = await api.getPokemonById(pokemonId)
+                //const pokemon = await api.getPokemonById(speciesId)
+                //opponentTeam.push(pokemon)
+                const species = await api.getPokemonSpeciesById(speciesId)
+                let pokemonId = 0
+                if (species.varieties.length > 1)
+                    pokemonId = getRandomNum(0, species.varieties.length - 1)
+
+                const pokemon = await api.getPokemonByName(species.varieties[pokemonId].pokemon.name)
                 opponentTeam.push(pokemon)
+
             }
-            catch(e) {
+            catch (e) {
                 setTeamError("Error when generating opponent team, please retry.")
                 console.log(e)
             }
-       }
+        }
 
         setGenerating(false)
         setTeamError("")
         onTeamChange(opponentTeam)
     }
 
-    useEffect(()=>{generateTeam()},[trainerTeam])
+    useEffect(() => { generateTeam() }, [trainerTeam])
 
     return <div className="opponent-team-container">
         <h3>Your Opponent Team</h3>
 
-        {generating ? <span>Generating opponent team...</span>:<div className="opponent-team-cards">
+        {generating ? <span>Generating opponent team...</span> : <div className="opponent-team-cards">
             {team.map((pokemon, index) => {
                 return <div key={`${pokemon.id}${index}`} className="card">
                     <img className="sprite" src={pokemon.sprites.front_default || ""}></img>
@@ -86,15 +94,16 @@ export default function OpponentTeam({ trainerTeam, team, onTeamChange, validate
                             </div>
                         </React.Fragment>)}
                     </div>
+                    {!pokemon.is_default && <p>Specie: {firstLetterUppercase(pokemon.species.name)}</p>}
                 </div>
             })}
 
         </div>}
         {teamError && <p className="error">{teamError}</p>}
-        <button onClick={()=>{
+        {!generating && <button onClick={() => {
             setGenerating(true)
             generateTeam()
-        }}>Generate New Team</button>
+        }}>Generate New Team</button>}
 
     </div>
 

@@ -74,6 +74,9 @@ const PokemonDetails = React.forwardRef<HTMLDivElement, PokemonDetailsProps>(({ 
 
         </ul>
 
+        <h3 className="heading">Specie</h3>
+          {firstLetterUppercase(pokemonDet.species.name)}
+
       </div>
     </>
   }
